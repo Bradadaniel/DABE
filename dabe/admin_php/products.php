@@ -65,6 +65,25 @@ if (isset($_POST['add_product'])){
 
 }
 
+
+if (isset($_GET['delete'])){
+
+    $delete_id = $_GET['delete'];
+    $delete_product_image = $conn->prepare("SELECT * FROM `products` WHERE id = ?");
+    $delete_product_image->execute([$delete_id]);
+    $fetch_delete_image = $delete_product_image->fetch(PDO::FETCH_ASSOC);
+    unlink('../uploaded_img/'. $fetch_delete_image['image_01']);
+    unlink('../uploaded_img/'. $fetch_delete_image['image_02']);
+    unlink('../uploaded_img/'. $fetch_delete_image['image_03']);
+    $delete_product = $conn->prepare("DELETE FROM `products` WHERE id = ?");
+    $delete_product->execute([$delete_id]);
+    $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE pid = ?");
+    $delete_cart->execute([$delete_id]);
+    $delete_wishlist = $conn->prepare("DELETE FROM `wishlist` WHERE pid = ?");
+    $delete_wishlist->execute([$delete_id]);
+    header('location:products.php');
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -100,11 +119,11 @@ if (isset($_POST['add_product'])){
             </div>
             <div class="inputBox">
                 <span>Termék kategóriája (kötelező)</span>
-                <input type="text" name="category" required placeholder="Irja be a termék kategóriáját!" class="box"">
+                <input type="text" name="category" required placeholder="Irja be a termék kategóriáját!" class="box">
             </div>
             <div class="inputBox">
                 <span>Elérhető méret (kötelező)</span>
-                <input type="text" name="size" required placeholder="Irja be a termék méreteit!" class="box"">
+                <input type="text" name="size" required placeholder="Irja be a termék méreteit!" class="box">
             </div>
             <div class="inputBox">
                 <span>Kép 01 (kötelező)</span>

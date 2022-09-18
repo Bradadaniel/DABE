@@ -43,7 +43,7 @@ if (isset($message)){
                 <a href="admin_login.php" class="option-btn">Bejel.</a>
                 <a href="register_admin.php" class="option-btn">Regisz.</a>
             </div>
-            <a href="admin_logout.php" class="delete-btn">Kijelentkezés</a>
+            <a href="admin_logout.php" onclick="return confirm('Biztosan kijelentkezik?')" class="delete-btn">Kijelentkezés</a>
         </div>
 
 
